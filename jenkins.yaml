@@ -1,0 +1,208 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2023-12-05T04:22:53Z"
+  generation: 20
+  name: jenkins
+  namespace: argocd
+  resourceVersion: "3231452"
+  uid: b29e9dcb-d58d-4e29-929f-17f76871bb03
+spec:
+  destination:
+    namespace: ci-cd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./appl/
+    repoURL: https://github.com/pavelbaranov/argocd.git
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+status:
+  controllerNamespace: argocd
+  health:
+    status: Healthy
+  history:
+  - deployStartedAt: "2023-12-05T04:22:55Z"
+    deployedAt: "2023-12-05T04:22:56Z"
+    id: 0
+    revision: 99b641755295f099bd83f48706a86e77eb82b8c9
+    source:
+      path: ./appl/
+      repoURL: https://github.com/pavelbaranov/argocd.git
+      targetRevision: master
+  operationState:
+    finishedAt: "2023-12-05T04:22:56Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        prune: true
+        revision: 99b641755295f099bd83f48706a86e77eb82b8c9
+        syncOptions:
+        - CreateNamespace=true
+    phase: Succeeded
+    startedAt: "2023-12-05T04:22:55Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Succeeded
+        kind: ServiceAccount
+        message: pruned
+        name: jenkins
+        namespace: default
+        status: Pruned
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Namespace
+        message: namespace/ci-cd created
+        name: ci-cd
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Secret
+        message: secret/jenkins-secret created
+        name: jenkins-secret
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: ConfigMap
+        message: configmap/jenkins-config created
+        name: jenkins-config
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: ConfigMap
+        message: configmap/basic-security created
+        name: basic-security
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: rbac.authorization.k8s.io
+        hookPhase: Running
+        kind: ClusterRoleBinding
+        message: "clusterrolebinding.rbac.authorization.k8s.io/jenkins reconciled.
+          reconciliation required update\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+          APIGroup: Name:default Namespace:ci-cd}. clusterrolebinding.rbac.authorization.k8s.io/jenkins
+          configured"
+        name: jenkins
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/jenkins created
+        name: jenkins
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        kind: Deployment
+        message: deployment.apps/jenkins created
+        name: jenkins
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: networking.k8s.io
+        hookPhase: Running
+        kind: Ingress
+        message: ingress.networking.k8s.io/ingress-jenkins created
+        name: ingress-jenkins
+        namespace: ci-cd
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 99b641755295f099bd83f48706a86e77eb82b8c9
+      source:
+        path: ./appl/
+        repoURL: https://github.com/pavelbaranov/argocd.git
+        targetRevision: master
+  reconciledAt: "2023-12-05T04:29:02Z"
+  resources:
+  - kind: ConfigMap
+    name: basic-security
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - kind: ConfigMap
+    name: jenkins-config
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - kind: Namespace
+    name: ci-cd
+    status: Synced
+    version: v1
+  - kind: Secret
+    name: jenkins-secret
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - health:
+      status: Healthy
+    kind: Service
+    name: jenkins
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - group: apps
+    health:
+      status: Healthy
+    kind: Deployment
+    name: jenkins
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - group: networking.k8s.io
+    health:
+      status: Healthy
+    kind: Ingress
+    name: ingress-jenkins
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    name: jenkins
+    status: Synced
+    version: v1
+  sourceType: Directory
+  summary:
+    externalURLs:
+    - http://jenkins.k8s-1.sa/
+    images:
+    - jfrog.it-academy.by/public/jenkins-ci:baranau_01
+  sync:
+    comparedTo:
+      destination:
+        namespace: ci-cd
+        server: https://kubernetes.default.svc
+      source:
+        path: ./appl/
+        repoURL: https://github.com/pavelbaranov/argocd.git
+        targetRevision: master
+    revision: 99b641755295f099bd83f48706a86e77eb82b8c9
+    status: Synced
